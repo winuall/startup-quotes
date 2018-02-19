@@ -11,7 +11,7 @@ function fetchWallpaperURL(){
     })
     .done(function(){
         document.body.style.background = "#f3f3f3 url('"+ randomImageUrl + "') no-repeat center center fixed";
-        
+        $('body').css('background-size','cover');
     })
 }
 

@@ -81,10 +81,15 @@ body {
 }
 
 input {
-  position: absolute;
+  position: relative;
   box-sizing: border-box;
-  bottom: 4em;
-  left: 50%;
-  width: 11em;
-  margin-left: -5.5em;
+  margin-top: 90vh !important;
+  width: 30%;
+  height: 40px;
+
+}
+.input-container{
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
 }
