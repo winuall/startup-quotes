@@ -15,7 +15,17 @@ function fetchWallpaperURL(){
     })
 }
 
+// Handle onclick event to Google Search
 
-console.log(fetchWallpaperURL())
+document.addEventListener('DOMContentLoaded', function() {
+    var link = document.getElementById('submitButton');
+    link.addEventListener('click', function() {
+        var query = document.getElementById("query").value;
+        var URL  = "https://www.google.com/search?q=" + query;
+        window.location.href = URL;
+    });
+});
+
+fetchWallpaperURL();
 
 
