@@ -9,11 +9,27 @@
     <div class="wrapper">
         <h1>Settings</h1>
         <div class="paper">
+            <div class="row">
+                <div class="group">
+                    <label for="search">Search Engine</label>
+                    <br>
+                    <select name="search" id="search" class="select">
+                        <option value="google" selected>Google</option>
+                        <option value="yahoo">Yahoo</option>
+                        <option value="duckduckgo">DuckDuckGo</option>
+                    </select>
+                </div>
+                <div class="group">
+                    <label for="interval">Interval (seconds)</label>
+                    <br>
+                    <input type="number" name="interval" id="interval" class="input" value="0" />
+                </div>
+            </div>
             <div class="group">
                 <label for="source">Pictures Source</label>
                 <br>
                 <select name="source" id="source" class="select">
-                    <option value="built-in">Built-in</option>
+                    <option value="built-in" selected>Built-in</option>
                     <option value="custom">Custom</option>
                 </select>
             </div>
