@@ -28,6 +28,29 @@ chrome.storage.local.get(["config", "pictures"], result => {
   config = result.config ? JSON.parse(result.config) : {};
   pictures = result.pictures ? JSON.parse(result.pictures) : [];
 
+  let url;
+  let placeholder;
+
+  switch (config.search) {
+    case "google":
+      url = "https://www.google.com/search?q=";
+      placeholder = "Google";
+      break;
+
+    case "yahoo":
+      url = "https://www.yahoo.com/search?p=";
+      placeholder = "Yahoo";
+      break;
+
+    case "duckduckgo":
+      url = "https://www.duckduckgo.com/?q=";
+      placeholder = "DuckDuckGo";
+      break;
+
+    default:
+      break;
+  }
+
   if (config.source === "built-in") {
     fetchWallpaperURL(() => {
       setInterval(fetchWallpaperURL, config.interval * 1000);
@@ -41,13 +64,12 @@ chrome.storage.local.get(["config", "pictures"], result => {
       showPicture(randomImageUrl);
     }, config.interval * 1000);
   }
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-  var link = document.getElementById("submitButton");
-  link.addEventListener("click", function() {
-    var query = document.getElementById("query").value;
-    var URL = "https://www.google.com/search?q=" + query;
-    window.location.href = URL;
+  $("#query").attr("placeholder", placeholder);
+
+  $("#submitButton").on("click", function() {
+    const query = $("#query").val();
+
+    window.location.href = url + query;
   });
 });
