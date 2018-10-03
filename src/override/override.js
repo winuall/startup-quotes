@@ -4,18 +4,23 @@
 
 const randomize = length => Math.floor(Math.random() * length + 0);
 
-const fetchWallpaperURL = () => {
+const showPicture = url => {
+  $("body").css({
+    background: "#f3f3f3 url('" + url + "') no-repeat center center fixed",
+    "background-size": "cover"
+  });
+};
+
+const fetchWallpaperURL = callback => {
   let randomImageUrl;
 
   $.getJSON("images.json", data => {
     const images = data["images"];
     randomImageUrl = images[randomize(images.length)];
   }).done(() => {
-    $("body").css({
-      background:
-        "#f3f3f3 url('" + randomImageUrl + "') no-repeat center center fixed",
-      "background-size": "cover"
-    });
+    if (callback) callback();
+
+    showPicture(randomImageUrl);
   });
 };
 
@@ -24,15 +29,17 @@ chrome.storage.local.get(["config", "pictures"], result => {
   pictures = result.pictures ? JSON.parse(result.pictures) : [];
 
   if (config.source === "built-in") {
-    fetchWallpaperURL();
-  } else {
-    let randomImageUrl = pictures[randomize(pictures.length)];
-
-    $("body").css({
-      background:
-        "#f3f3f3 url('" + randomImageUrl + "') no-repeat center center fixed",
-      "background-size": "cover"
+    fetchWallpaperURL(() => {
+      setInterval(fetchWallpaperURL, config.interval * 1000);
     });
+  } else {
+    const randomImageUrl = pictures[randomize(pictures.length)];
+    showPicture(randomImageUrl);
+
+    setInterval(() => {
+      const randomImageUrl = pictures[randomize(pictures.length)];
+      showPicture(randomImageUrl);
+    }, config.interval * 1000);
   }
 });
 
