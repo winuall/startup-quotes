@@ -25,11 +25,25 @@ const fetchWallpaperURL = callback => {
 };
 
 chrome.storage.local.get(["config", "pictures"], result => {
-  config = result.config ? JSON.parse(result.config) : {};
-  pictures = result.pictures ? JSON.parse(result.pictures) : [];
+  let config = {};
+  let pictures = result.pictures ? JSON.parse(result.pictures) : [];
+  let url = "";
+  let placeholder = "";
 
-  let url;
-  let placeholder;
+  const defaultConfig = {
+    search: "google",
+    interval: 0,
+    source: "built-in"
+  };
+
+  if (result.config) {
+    config = {
+      ...defaultConfig,
+      ...JSON.parse(result.config)
+    };
+  } else {
+    config = defaultConfig;
+  }
 
   switch (config.search) {
     case "google":
@@ -52,17 +66,23 @@ chrome.storage.local.get(["config", "pictures"], result => {
   }
 
   if (config.source === "built-in") {
-    fetchWallpaperURL(() => {
-      setInterval(fetchWallpaperURL, config.interval * 1000);
-    });
+    if (config.interval) {
+      fetchWallpaperURL(() => {
+        setInterval(fetchWallpaperURL, config.interval * 1000);
+      });
+    } else {
+      fetchWallpaperURL();
+    }
   } else {
     const randomImageUrl = pictures[randomize(pictures.length)];
     showPicture(randomImageUrl);
 
-    setInterval(() => {
-      const randomImageUrl = pictures[randomize(pictures.length)];
-      showPicture(randomImageUrl);
-    }, config.interval * 1000);
+    if (config.interval) {
+      setInterval(() => {
+        const randomImageUrl = pictures[randomize(pictures.length)];
+        showPicture(randomImageUrl);
+      }, config.interval * 1000);
+    }
   }
 
   $("#query").attr("placeholder", placeholder);
