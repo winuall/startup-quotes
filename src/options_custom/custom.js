@@ -11,15 +11,39 @@ $(function() {
   };
 
   chrome.storage.local.get(["config", "pictures"], result => {
-    config = result.config ? JSON.parse(result.config) : {};
+    const defaultConfig = {
+      search: "google",
+      interval: 0,
+      source: "built-in"
+    };
+
+    if (result.config) {
+      config = {
+        ...defaultConfig,
+        ...JSON.parse(result.config)
+      };
+    } else {
+      config = defaultConfig;
+    }
+
     pictures = result.pictures ? JSON.parse(result.pictures) : [];
 
+    $("#search").val(config.search);
+    $("#interval").val(config.interval);
     $("#source").val(config.source);
     $("#source").change();
 
     for (const picture of pictures) {
       appendPicture(picture);
     }
+  });
+
+  $("#search").on("change", function() {
+    config["search"] = this.value;
+  });
+
+  $("#interval").on("change", function() {
+    config["interval"] = this.value;
   });
 
   $("#source").on("change", function() {

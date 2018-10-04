@@ -4,43 +4,92 @@
 
 const randomize = length => Math.floor(Math.random() * length + 0);
 
-const fetchWallpaperURL = () => {
+const showPicture = url => {
+  $("body").css({
+    background: "#f3f3f3 url('" + url + "') no-repeat center center fixed",
+    "background-size": "cover"
+  });
+};
+
+const fetchWallpaperURL = callback => {
   let randomImageUrl;
 
   $.getJSON("images.json", data => {
     const images = data["images"];
     randomImageUrl = images[randomize(images.length)];
   }).done(() => {
-    $("body").css({
-      background:
-        "#f3f3f3 url('" + randomImageUrl + "') no-repeat center center fixed",
-      "background-size": "cover"
-    });
+    if (callback) callback();
+
+    showPicture(randomImageUrl);
   });
 };
 
 chrome.storage.local.get(["config", "pictures"], result => {
-  config = result.config ? JSON.parse(result.config) : {};
-  pictures = result.pictures ? JSON.parse(result.pictures) : [];
+  let config = {};
+  let pictures = result.pictures ? JSON.parse(result.pictures) : [];
+  let url = "";
+  let placeholder = "";
+
+  const defaultConfig = {
+    search: "google",
+    interval: 0,
+    source: "built-in"
+  };
+
+  if (result.config) {
+    config = {
+      ...defaultConfig,
+      ...JSON.parse(result.config)
+    };
+  } else {
+    config = defaultConfig;
+  }
+
+  switch (config.search) {
+    case "google":
+      url = "https://www.google.com/search?q=";
+      placeholder = "Google";
+      break;
+
+    case "yahoo":
+      url = "https://www.yahoo.com/search?p=";
+      placeholder = "Yahoo";
+      break;
+
+    case "duckduckgo":
+      url = "https://www.duckduckgo.com/?q=";
+      placeholder = "DuckDuckGo";
+      break;
+
+    default:
+      break;
+  }
 
   if (config.source === "built-in") {
-    fetchWallpaperURL();
+    if (config.interval) {
+      fetchWallpaperURL(() => {
+        setInterval(fetchWallpaperURL, config.interval * 1000);
+      });
+    } else {
+      fetchWallpaperURL();
+    }
   } else {
-    let randomImageUrl = pictures[randomize(pictures.length)];
+    const randomImageUrl = pictures[randomize(pictures.length)];
+    showPicture(randomImageUrl);
 
-    $("body").css({
-      background:
-        "#f3f3f3 url('" + randomImageUrl + "') no-repeat center center fixed",
-      "background-size": "cover"
-    });
+    if (config.interval) {
+      setInterval(() => {
+        const randomImageUrl = pictures[randomize(pictures.length)];
+        showPicture(randomImageUrl);
+      }, config.interval * 1000);
+    }
   }
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-  var link = document.getElementById("submitButton");
-  link.addEventListener("click", function() {
-    var query = document.getElementById("query").value;
-    var URL = "https://www.google.com/search?q=" + query;
-    window.location.href = URL;
+  $("#query").attr("placeholder", placeholder);
+
+  $("#submitButton").on("click", function() {
+    const query = $("#query").val();
+
+    window.location.href = url + query;
   });
 });
