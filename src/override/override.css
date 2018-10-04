@@ -1,23 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister');
 span,
 input {
   border: 2px solid rgba(255, 255, 255, 0.5);
-  font-size: 1.75em;
+  font-size: 1.7em !important;
   padding: .25em .5em .3125em;
-  color: rgba(255, 255, 255, 0.5);
-  border-radius: .25em;
+  color: black;
+  border-radius: .25em ;
   background: transparent;
   -webkit-transition: all .100s;
   transition: all .100s;
+  font-family: 'Love Ya Like A Sister', cursive !important;
 }
 span:focus,
 input:focus {
   outline: none;
-  color: rgba(255, 255, 255, 0.75);
+  color: black;
   border-color: rgba(255, 255, 255, 0.75);
 }
 span.keyup,
 input.keyup {
-  color: white;
+  color: black;
   border-color: white;
   text-shadow: 0 0 .125em white;
   box-shadow: 0 0 .25em white,inset 0 0 .25em white;
@@ -37,36 +39,36 @@ input {
 }
 
 ::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: grey;
   text-shadow: 0 0 .125em transparent;
   -webkit-transition: all .25s;
   transition: all .25s;
 }
 
 input:focus::-webkit-input-placeholder {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 ::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: grey;
   text-shadow: 0 0 .125em transparent;
   -webkit-transition: all .25s;
   transition: all .25s;
 }
 
 input:focus::-moz-placeholder {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 :-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: grey;
   text-shadow: 0 0 .125em transparent;
   -webkit-transition: all .25s;
   transition: all .25s;
 }
 
 input:focus:-ms-input-placeholder {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 html, body {
@@ -81,23 +83,85 @@ body {
 }
 
 input {
+  background-color: #eee ;
   position: relative;
   box-sizing: border-box;
-  margin-top: 90vh !important;
-  width: 30%;
+  margin-top: 85vh !important;
+  margin-left:2vw;
+  width: 40vw;
   height: 40px;
+  color:grey;
+}
+i.fa.fa-search
+{
+  border: 0.5px solid rgba(255, 255, 255, 0);
+  border-radius: .25em;
+  background-color: black ;
+  color:white ;
+  transform: scale(2);
+  margin-top: 85vh !important;
+  padding:0.4em 0.25em 0.25em 0.25em;
+  border-radius: .25em 0em 0em .25em !important;
 
 }
 a {
   position: relative;
   box-sizing: border-box;
-  margin-top: 90vh !important;
-  width: 30%;
+  margin-top: 85vh !important;
+  margin-left:2vw;
+  width: 40vw;
   height: 40px;
 
 }
+#query
+{
+  border-radius: 0em .25em .25em 0em;
+}
+#submitButton
+{
+  border: 2px solid rgba(255, 255, 255, 1);
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin-top: 80vh !important;
+  width: 5vw;
+  height: 40px;
+  color: white;
+}
+
 .input-container{
   position: relative;
   margin: 0 auto;
   text-align: center;
+}
+#submitButton:hover
+{
+  background: black;  /* fallback for old browsers */
+  margin-top: 80vh !important;
+  width: 5vw;
+  height: 40px;
+  color: white;
+  animation: shake 2s ease infinite;
+}
+
+@keyframes shake {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-5px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(5px, 0, 0);
+  }
 }
